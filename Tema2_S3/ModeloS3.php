@@ -32,9 +32,23 @@ class ModeloS3{
         $resultado = false;
         try {
             $this->conexion->createBucket([
-                'Bucket'=> $this->rutaUnica.$nombre
+                'Bucket'=> $this->rutaUnica.strtolower($nombre)
             ]);
             $resultado = true;
+        } catch (\Throwable $th) {
+            $error[] = $th->getMessage();
+        }
+        return $resultado;
+    }
+
+    function obtenerEstanerias(){
+        global $error;
+        $resultado = array();
+        try {
+           $tmp = $this->conexion->listBuckets();
+           foreach($tmp['Buckets'] as $t){
+                $resultado[]=$t['Name'] ;
+           }
         } catch (\Throwable $th) {
             $error[] = $th->getMessage();
         }

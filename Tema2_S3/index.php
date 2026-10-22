@@ -16,6 +16,18 @@ require_once 'controlador.php';
         <input type="text" name="estanteria" id="" placeholder="Nombre Estantería">
         <button type="submit" name="crearE">Crear</button>
     </form>
+    <form action="" method="post" enctype="multipart/form-data">
+        <h3>Gestionar Libros</h3>
+        <label for="">Nombre de la estantería</label>
+        <select name="estanteria" id="">
+            <?php 
+            //Cada bucket va a ser un option
+            foreach($estanterias as $e){
+                echo '<option>'.$e.'</option>';
+            }
+             ?>
+        </select>
+    </form>
 
     <?php 
     //Mostrar errores

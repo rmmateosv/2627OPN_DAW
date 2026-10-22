@@ -20,4 +20,6 @@ if(isset($_POST['crearE'])){
         }
     }
 }
+//Obtener las estanterías/buckets para rellenar el select
+$estanterias = $modelo->obtenerEstanerias();
 ?>
