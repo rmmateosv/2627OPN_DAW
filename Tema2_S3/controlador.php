@@ -22,4 +22,20 @@ if(isset($_POST['crearE'])){
 }
 //Obtener las estanterías/buckets para rellenar el select
 $estanterias = $modelo->obtenerEstanerias();
+if(isset($_POST['cargar'])){
+    if(empty($_FILES['libro']['name'])){
+        $error[]='No has seleccionado el libro';
+    }
+    else{
+        //Subirlo a S3
+        if($modelo->cargarLibro($_POST['estanteria'],
+                                $_FILES['libro']['name'],
+                                $_FILES['libro']['tmp_name'])){
+            $mensajes[]='Libro cargado';
+        }
+        else{
+            $error[]='Error al cargar el libro';
+        }
+    }
+}
 ?>

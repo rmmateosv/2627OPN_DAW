@@ -23,10 +23,14 @@ require_once 'controlador.php';
             <?php 
             //Cada bucket va a ser un option
             foreach($estanterias as $e){
-                echo '<option>'.$e.'</option>';
+                echo '<option value="'.$e['clave'].'">'.$e['nombre'].'</option>';
             }
              ?>
         </select>
+        <br>
+        <label for="">Selecciona libro</label>
+        <input type="file" name="libro" id="">
+        <button type="submit" name="cargar">Poner Libro en Estantería</button>
     </form>
 
     <?php 

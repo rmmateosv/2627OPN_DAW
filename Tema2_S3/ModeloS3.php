@@ -47,13 +47,36 @@ class ModeloS3{
         try {
            $tmp = $this->conexion->listBuckets();
            foreach($tmp['Buckets'] as $t){
-                $resultado[]=$t['Name'] ;
+                //Solamente nos quedamos con los buckets de este proyecto
+                $campos = explode('.',$t['Name']);
+                $aux = $campos[0].'.'.(isset($campos[1])?$campos[1]:'').'.'.(isset($campos[2])?$campos[2]:'').'.';
+                if($aux==$this->rutaUnica){
+                    $resultado[]= array('clave'=>$t['Name'],'nombre'=>$campos[3]);
+                }
            }
         } catch (\Throwable $th) {
             $error[] = $th->getMessage();
         }
         return $resultado;
     }
+
+    function cargarLibro($bucket,$objeto,$fichero){
+        global $error;
+        $resultado = false;
+        try {
+            $this->conexion->putObject([
+                'Bucket'=>$bucket,
+                'Key'=>'libros/'.$objeto,
+                'SourceFile' =>$fichero,
+                'ContentType' => mime_content_type($fichero)
+            ]);
+            $resultado=true;
+        } catch (\Throwable $th) {
+            $error[] = $th->getMessage();
+        }
+        return $resultado;
+    }
+
     /**
      * Get the value of conexion
      */ 
