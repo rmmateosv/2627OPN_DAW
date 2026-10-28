@@ -21,7 +21,22 @@ if(isset($_POST['crearE'])){
     }
 }
 //Obtener las estanterías/buckets para rellenar el select
-$estanterias = $modelo->obtenerEstanerias();
+$estanterias = $modelo->obtenerEstanterias();
+if(empty($estanterias)){
+    $estaneriaSel=null;
+}
+else{
+    //Si hay una estantería seleccionada, se elige esta
+    //Si no, se elige la primera del array
+    if(isset($_POST['estanteria'])){
+        $estaneriaSel = $_POST['estanteria'];
+    }
+    else{
+        $estaneriaSel = $estanterias[0]['clave'];
+    }
+    //Obtener libros de la estantería seleccioda
+    $libros = $modelo->obtenerLibros($estaneriaSel);
+}
 if(isset($_POST['cargar'])){
     if(empty($_FILES['libro']['name'])){
         $error[]='No has seleccionado el libro';

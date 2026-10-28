@@ -41,7 +41,7 @@ class ModeloS3{
         return $resultado;
     }
 
-    function obtenerEstanerias(){
+    function obtenerEstanterias(){
         global $error;
         $resultado = array();
         try {
@@ -71,6 +71,24 @@ class ModeloS3{
                 'ContentType' => mime_content_type($fichero)
             ]);
             $resultado=true;
+        } catch (\Throwable $th) {
+            $error[] = $th->getMessage();
+        }
+        return $resultado;
+    }
+    function obtenerLibros($estanteria){
+        $resultado = array();
+        try {
+            $tmp=$this->conexion->listObjectsV2([
+                'Bucket' => $estanteria
+            ]);
+            //Tratamos los objetos de bucket y recuperamos
+            //para cada uno el nombre, el tamaño y el tipo
+            foreach($tmp['Contents'] as $t){
+                $resultado[]= array('nombre'=>$t['Key'],'tamano'=>$t['Size'],
+                    'tipo'=>$t['Type'],'fecha'=>$t['LastModified']);
+            }
+            
         } catch (\Throwable $th) {
             $error[] = $th->getMessage();
         }

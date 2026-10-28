@@ -31,6 +31,27 @@ require_once 'controlador.php';
         <label for="">Selecciona libro</label>
         <input type="file" name="libro" id="">
         <button type="submit" name="cargar">Poner Libro en Estantería</button>
+        <!-- TAbla para mostrar los libros cargados -->
+        <p/> 
+        
+        <table border="1">
+            <tr>
+                <td>Libro</td>
+                <td>Tamaño</td>
+                <td>Tipo</td>
+                <td>Fecha Modificación</td>
+            </tr>
+            <?php 
+            if($estaneriaSel!=null){ 
+                foreach($libros as $lib){
+                    echo '<td>'.$lib['nombre'].'</td>';
+                    echo '<td>'.$lib['tamano'].'</td>';
+                    echo '<td>'.$lib['tipo'].'</td>';
+                    echo '<td>'.$lib['fecha'].'</td>';
+                }
+            }
+            ?>
+         </table>
     </form>
 
     <?php 
