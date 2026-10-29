@@ -13,17 +13,19 @@ require_once 'controlador.php';
     <form action="" method="post">
         <h3>Crear Estantería (Crear bucket)</h3>
         <label for="">Nombre de la estantería</label>
-        <input type="text" name="estanteria" id="" placeholder="Nombre Estantería">
+        <input type="text" name="est" id="" placeholder="Nombre Estantería">
         <button type="submit" name="crearE">Crear</button>
     </form>
     <form action="" method="post" enctype="multipart/form-data">
         <h3>Gestionar Libros</h3>
         <label for="">Nombre de la estantería</label>
-        <select name="estanteria" id="">
+        <select name="estanteria" id="" onchange="submit()">
             <?php 
             //Cada bucket va a ser un option
             foreach($estanterias as $e){
-                echo '<option value="'.$e['clave'].'">'.$e['nombre'].'</option>';
+                echo '<option value="'.$e['clave'].'"'.
+        (isset($_POST['estanteria']) && $_POST['estanteria']==$e['clave']?'selected':'')
+        .'>'.$e['nombre'].'</option>';
             }
              ?>
         </select>
@@ -38,20 +40,29 @@ require_once 'controlador.php';
             <tr>
                 <td>Libro</td>
                 <td>Tamaño</td>
-                <td>Tipo</td>
                 <td>Fecha Modificación</td>
+                <td>Visualizar</td>
+                <td>Borrar</td>
             </tr>
             <?php 
             if($estaneriaSel!=null){ 
                 foreach($libros as $lib){
+                    echo '<tr>';
                     echo '<td>'.$lib['nombre'].'</td>';
                     echo '<td>'.$lib['tamano'].'</td>';
-                    echo '<td>'.$lib['tipo'].'</td>';
                     echo '<td>'.$lib['fecha'].'</td>';
+                    echo '<td><button type="submit" name="visualizar" value="'.$lib['nombre'].'">Visualizar</button></td>';
+                    echo '<td><button type="submit" name="borrarL" value="'.$lib['nombre'].'">Borrar</button></td>';
+                    echo '</tr>';
                 }
             }
             ?>
          </table>
+         <?php
+         if(isset($contenidoLibro)){
+            echo '<p>'.$contenidoLibro.'</p>';
+         }
+         ?>
     </form>
 
     <?php 

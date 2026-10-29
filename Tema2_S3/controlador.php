@@ -8,11 +8,11 @@ if($modelo->getConexion()==null){
 if(isset($_POST['crearE'])){
     //Pulsado crear Estantería
     //Comporbar que se ha rellenado el nombre de la estantería
-    if(empty($_POST['estanteria'])){
+    if(empty($_POST['est'])){
         $error[]='Rellena el nombre de la estantería';
     }
     else{
-        if($modelo->crearEstanteria($_POST['estanteria'])){
+        if($modelo->crearEstanteria($_POST['est'])){
             $mensajes[]='Estantería creada';
         }
         else{
@@ -52,5 +52,8 @@ if(isset($_POST['cargar'])){
             $error[]='Error al cargar el libro';
         }
     }
+}
+elseif(isset($_POST['visualizar'])){
+    $contenidoLibro = $modelo->obtenerLibro($estaneriaSel,$_POST['visualizar']);
 }
 ?>

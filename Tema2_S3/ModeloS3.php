@@ -77,6 +77,7 @@ class ModeloS3{
         return $resultado;
     }
     function obtenerLibros($estanteria){
+        global $error;
         $resultado = array();
         try {
             $tmp=$this->conexion->listObjectsV2([
@@ -84,12 +85,33 @@ class ModeloS3{
             ]);
             //Tratamos los objetos de bucket y recuperamos
             //para cada uno el nombre, el tamaño y el tipo
-            foreach($tmp['Contents'] as $t){
-                $resultado[]= array('nombre'=>$t['Key'],'tamano'=>$t['Size'],
-                    'tipo'=>$t['Type'],'fecha'=>$t['LastModified']);
+            if(isset($tmp['Contents'])) {
+                foreach($tmp['Contents'] as $t){
+                    $resultado[]= array('nombre'=>$t['Key'],
+                    'tamano'=>$t['Size'],
+                    'fecha'=>$t['LastModified']);
+                }
             }
             
         } catch (\Throwable $th) {
+            $error[] = $th->getMessage();
+        }
+        return $resultado;
+    }
+    function obtenerLibro($bucket,$clave){
+        global $error;
+        $resultado='';
+        try {
+            //code...
+            $tmp = $this->conexion->getObject([
+                'Bucket' => $bucket,
+                'Key' => $clave
+            ]);
+            if(isset($tmp['Body'])){
+                $resultado=$tmp['Body'];
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
             $error[] = $th->getMessage();
         }
         return $resultado;
