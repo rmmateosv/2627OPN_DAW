@@ -117,6 +117,21 @@ class ModeloS3{
         return $resultado;
     }
 
+    function borrarLibro($estanteria,$libro){
+        $resultado = false;
+        global $error;
+        try {
+            $tmp = $this->conexion->deleteObject([
+                'Bucket' => $estanteria,
+                'Key' => $libro
+            ]);
+            $resultado = true;
+        } catch (\Throwable $th) {
+            $error[] = $th->getMessage();
+        }
+        return $resultado;
+    }
+
     /**
      * Get the value of conexion
      */ 

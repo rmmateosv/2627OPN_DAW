@@ -56,4 +56,14 @@ if(isset($_POST['cargar'])){
 elseif(isset($_POST['visualizar'])){
     $contenidoLibro = $modelo->obtenerLibro($estaneriaSel,$_POST['visualizar']);
 }
+elseif(isset($_POST['borrarL'])){
+    if($modelo->borrarLibro($estaneriaSel,$_POST['borrarL'])){
+        $mensajes[]='Libro borrado';
+        //Obtener libros de la estantería seleccioda para mostrarlos
+        $libros = $modelo->obtenerLibros($estaneriaSel);
+    }
+    else{
+        $error[]='Error al borrar el libro';
+    }
+}
 ?>

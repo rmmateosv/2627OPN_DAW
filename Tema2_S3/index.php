@@ -63,6 +63,20 @@ require_once 'controlador.php';
             echo '<p>'.$contenidoLibro.'</p>';
          }
          ?>
+         <h2>Notas de la estantería</h2>
+         <textarea name="nota" id="" placeholder="Introduce nota"></textarea>
+         <button type="submit" name="crearN">Crear Nota</button>
+         <div>
+            <?php 
+            //$notas será un array con las notas de la estantería
+            if(isset($notas)){             
+               foreach($notas as $n){
+                 echo '<p>'.$n.'</p>';
+               }
+            }
+             ?>
+            
+         </div>
     </form>
 
     <?php 
