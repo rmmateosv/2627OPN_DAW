@@ -131,6 +131,48 @@ class ModeloS3{
         }
         return $resultado;
     }
+    function crearNota($estanteria, $nota){
+        $resultado =false;
+        global $error;
+        try {
+            //Crear un fichero en S3, con el texto que hay $nota
+            $this->conexion->putObject([
+                'Bucket'=>$estanteria,
+                'Key'=>'notas/'.date('Ymdhis').'.txt',
+                'Body'=>$nota
+            ]);
+            $resultado = true;
+        } catch (\Throwable $th) {
+            $error[] = $th->getMessage();
+        }
+        return $resultado;
+    }
+    function obtenerNotas($estanteria){
+        $resultado=array();
+        global $error;
+        try {
+            //Obtener los objetos del bucket que estén en  notas
+            $tmp = $this->conexion->listObjectsV2([
+                'Bucket'=>  $estanteria,
+                'Prefix'=> 'notas'
+            ]);
+            if(isset($tmp['Contents'])){
+                //Recupero el contenido de cada fichro y lo añado a resultado
+                foreach($tmp['Contents'] as $t){
+                    $tmp2 = $this->conexion->getObject([
+                        'Bucket'=>$estanteria,
+                        'Key'=>$t['Key']
+                    ]);
+                    if(isset($tmp2['Body'])){
+                        $resultado[] = $tmp2['Body'];
+                    }                    
+                }
+            }
+        } catch (\Throwable $th) {
+           $error[] = $th->getMessage();
+        }
+        return $resultado;
+    }
 
     /**
      * Get the value of conexion

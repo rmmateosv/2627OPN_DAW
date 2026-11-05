@@ -66,4 +66,21 @@ elseif(isset($_POST['borrarL'])){
         $error[]='Error al borrar el libro';
     }
 }
+elseif(isset($_POST['crearN'])){
+    if(!empty($_POST['nota'])){
+        if($modelo->crearNota($estaneriaSel,$_POST['nota'])){
+            $mensajes[]='Nota creada';
+        }
+        else{
+            $error[]='Error al crear la nota';
+        }
+    }
+    else{
+        $error[]='Error, introduce la nota';
+    }
+}
+//Obtener las notas de la estantería seleccionado
+if(isset($estaneriaSel)){
+    $notas = $modelo->obtenerNotas($estaneriaSel);
+}
 ?>
