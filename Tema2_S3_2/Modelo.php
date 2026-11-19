@@ -43,7 +43,33 @@ class Modelo{
         }
         return $resultado;
     }
-
+    function obtenerProductos(){
+        $resultado = array();
+        try {
+            //Crear un objeto en el bucket con el texto
+            $tmp=$this->conexion->listObjectsV2([
+                'Bucket'=>$this->nombreB
+            ]);
+            if(isset($tmp['Contents'])){
+                foreach($tmp['Contents'] as $t){
+                    $resultado[]=$this->conexion->getObjectUrl($this->nombreB, $t['Key']);
+                }
+            }            
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        return $resultado;
+    }
+    function obtenerURLBucket(){
+        $resultado = null;
+        try {
+            //Crear un objeto en el bucket con el texto
+            $resultado=$this->conexion->getObjectUrl($this->nombreB,'index.html');                       
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        return $resultado;
+    }
     /**
      * Get the value of conexion
      */ 
@@ -51,6 +77,8 @@ class Modelo{
     {
         return $this->conexion;
     }
+
+    
 
     
 }

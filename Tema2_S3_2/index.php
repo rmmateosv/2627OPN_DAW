@@ -16,5 +16,17 @@ require_once 'controlador.php';
         <button type="submit" name="cargar">Cargar</button>
     </form>
     <h2>Productos cargados</h2>
+    <?php 
+    if(isset($subidos)){
+        echo '<ul>';
+        foreach($subidos as $s){
+            echo '<li><a href="'.$s.'">'.$s.'</a>';
+        }
+        echo '</ul>';
+    }
+     if(isset($urlB)){
+        echo '<h2><a href="'.$urlB.'">Pulsa para acceder al bucket</a></h2>';    
+     }
+     ?>
 </body>
 </html>
